@@ -35,6 +35,11 @@ export const App = () => {
     setInput('');
   };
 
+  const handleResetAllFilters = () => {
+    setSelectedOwner('All');
+    setInput('');
+  };
+
   const filteredProducts = products.filter(
     product =>
       (selectedOwner === 'All' || product.user.name === selectedOwner) &&
@@ -138,6 +143,7 @@ export const App = () => {
                 data-cy="ResetAllButton"
                 href="#/"
                 className="button is-link is-outlined is-fullwidth"
+                onClick={handleResetAllFilters}
               >
                 Reset all filters
               </a>
@@ -145,12 +151,14 @@ export const App = () => {
           </nav>
         </div>
 
-        {filteredProducts.length > 0 ? (
+        {filteredProducts.length === 0 ? (
           <div className="box table-container">
             <p data-cy="NoMatchingMessage">
               No products matching selected criteria
             </p>
-
+          </div>
+        ) : (
+          <div className="box table-container">
             <table
               data-cy="ProductTable"
               className="table is-striped is-narrow is-fullwidth"
@@ -232,8 +240,6 @@ export const App = () => {
               </tbody>
             </table>
           </div>
-        ) : (
-          <p>No results</p>
         )}
       </div>
     </div>
